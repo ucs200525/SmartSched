@@ -13,10 +13,12 @@ import RoomManagement from "@/pages/room-management";
 import TimetableGeneration from "@/pages/timetable-generation";
 import ConflictResolution from "@/pages/conflict-resolution";
 import NotFound from "@/pages/not-found";
+import { LoginForm } from "@/lib/auth";
 
 function Router() {
   return (
     <Switch>
+      <Route path="/login" component={LoginForm} />
       <Route path="/" component={AdminDashboard} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/faculty" component={FacultyDashboard} />
