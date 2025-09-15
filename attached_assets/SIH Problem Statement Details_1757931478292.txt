@@ -1,0 +1,246 @@
+SIH Problem Statement Details
+Problem Statement ID	
+25091
+Problem Statement Title	
+AI-Based Timetable Generation System aligned with NEP 2020 for Multidisciplinary Education Structures
+Description	
+Background:
+With the implementation of the National Education Policy (NEP) 2020, all higher education institutions-including Institutes of Teacher Education and general degree colleges-have transitioned to Four-Year Undergraduate Programmes (FYUP) and integrated teacher education programs like B.Ed., M.Ed., and ITEP. These programs feature flexible, creditbased, multidisciplinary structures allowing students to choose Major, Minor, Skill-Based, Ability Enhancement, and Value-Added courses. Manual timetable creation under this new framework has become extremely complex, involving numerous subject combinations, varying credit hours, student preferences, and faculty workload distribution. To manage this, colleges usually form dedicated timetable committees, but even then, clashes, underutilization of faculty, and scheduling inefficiencies persist.
+
+Description:
+This problem statement envisions the development of a web-based or hybrid intelligent system that can generate automated, conflict-free, optimized academic timetables alignment with the NEP 2020 course structure. The system must integrate:
+- Student data (elective choices, enrolled credits)
+- Curriculum structure (course codes, credits, theory/practical split)
+- Faculty workload, availability, and expertise
+- Room/lab availability and capacity
+- Teaching practice schedules (especially relevant for B.Ed. and M.Ed.)
+- Field work, internships, and project components
+The system should also allow dynamic editing, scenario simulation, and scalability for upcoming semesters. A user-friendly admin interface is essential to allow real-time inputs and updates.
+
+Expected Solution:
+A deployable AI/ML-assisted Timetable Generator that:
+- Accepts structured inputs from academic, student, and faculty databases
+- Generates a semester-wise timetable for multiple programs (B.Ed., M.Ed., FYUP, ITEP)
+- Prevents scheduling conflicts across faculty and infrastructure
+- Accommodates future course additions and changing NEP guidelines
+- Offers exportable formats (PDF, Excel) for student and faculty sharing
+- Can be integrated with existing Academic Management Systems
+Organization	Government of Jammu and Kashmir
+Department	Higher Education Department
+Category	Software
+Theme	Smart Automation
+
+Step-by-Step Plan for SIH Problem Statement ID 25091
+1. System Overview
+We are building an AI-Based Timetable Generation System using:
+
+AI Module → Python (optimization + ML/AI).
+
+Frontend & Backend → MERN Stack (React, Node.js, Express, MongoDB).
+
+Integration → Python service communicates with Node.js backend (REST APIs).
+
+2. Key Functionalities
+Accept structured input: student choices, curriculum, faculty availability, rooms/labs.
+
+Generate optimized, conflict-free timetables.
+
+Provide dashboards for Admin, Faculty, and Students.
+
+Export in PDF/Excel formats.
+
+Allow dynamic updates and real-time simulation.
+
+3. AI/Optimization Engine (Python)
+AI techniques we can use:
+
+Constraint Satisfaction Problem (CSP) Solvers (Google OR-Tools, PuLP, OptaPlanner).
+
+Genetic Algorithms (for multi-objective optimization: workload balance, clash-free scheduling).
+
+Integer Linear Programming (ILP) for optimization.
+
+Machine Learning (optional future scope) → predicting workload distribution or elective demand trends.
+
+Inputs to AI engine:
+
+Student elective data, enrolled credits.
+
+Faculty expertise + workload limits.
+
+Room/lab constraints (capacity, availability).
+
+Curriculum (theory, lab, internship, projects).
+
+Outputs from AI engine:
+
+Timetable matrix (Course ↔ Time Slot ↔ Room ↔ Faculty).
+
+Optimized to minimize clashes and balance workload.
+
+4. Dashboards
+Admin Dashboard
+Upload/manage:
+
+Student elective choices, enrollment list.
+
+Faculty profiles (expertise, max hours/week).
+
+Course structure (theory, lab, credits).
+
+Room/Lab details (capacity, availability).
+
+Generate & view timetable (for all programs/semesters).
+
+Approve/publish timetable.
+
+Real-time conflict detection.
+
+Export in PDF/Excel.
+
+Scenario simulation (e.g., “What if a new elective is added?”).
+
+Faculty Dashboard
+View personal timetable (classes assigned).
+
+View workload summary (weekly hours, subjects assigned).
+
+Request changes or mark unavailability.
+
+Approve/decline extra allocations (if needed).
+
+Download timetable (PDF/Excel).
+
+Student Dashboard
+View personalized timetable (courses enrolled).
+
+Notifications for updates/changes.
+
+Export/print timetable.
+
+Feedback option (e.g., clash report, request slot change).
+
+5. Workflow
+Admin inputs data → courses, students, faculty, rooms.
+
+Data stored in MongoDB.
+
+Node.js backend sends data to Python AI engine.
+
+AI engine generates optimized timetable.
+
+Results returned via API → stored in DB.
+
+Dashboards render timetable (Admin, Faculty, Student).
+
+6. Export & Integration
+Export: PDF, Excel using 
+Integration: Can be plugged into existing Academic Management System via APIs.
+
+## **AI-Based Timetable Generation System ( Flow)**
+
+### **A. Base Timetable Setup (Admin → System Questions)**
+
+Before timetable generation, the **Admin** configures the base framework:
+
+1. **Slot Configuration**
+
+   * Slot length → 50 min / 55 min (depends on walking distance between blocks, campus infra).
+   * College start & end timings (e.g., 8:30 AM – 5:30 PM).
+   * Number of slots per day (e.g., 7–8).
+   * Breaks/lunch timings.
+
+2. **Credit-to-Slot Mapping**
+
+   * 1 credit → 1 slot/week.
+   * 2 credits → 2 slots/week.
+   * 3 credits → 3 slots/week.
+   * Labs → consecutive slots (2–3 credits).
+
+3. **Course Setup**
+
+   * Upload **course list** (Major, Minor, Skill-Based, Ability Enhancement, Value-Added).
+   * Define → course code, credits, theory/lab split, student strength.
+   * AI auto-calculates required slots for each course.
+
+4. **Faculty Setup**
+
+   * Assign faculty to courses.
+   * Define availability, workload limits (e.g., max 12 hrs/week).
+   * Specialization check → only qualified faculty can teach.
+
+5. **Room/Lab Setup**
+
+   * Room capacity, location, availability.
+   * Tag rooms/labs to specific courses (e.g., Physics → Physics Lab).
+   * Student strength vs room strength validation.
+
+---
+
+### **B. AI Allocation Engine (Python)**
+
+1. **Slot Assignment**
+
+   * Allocate courses to slots based on credits.
+   * Ensure labs = consecutive slots.
+
+2. **Faculty Mapping**
+
+   * Connect course to assigned faculty.
+   * Validate workload, availability, clash-free allocation.
+
+3. **Room/Lab Allocation**
+
+   * Match course with suitable room/lab (capacity ≥ enrolled students).
+   * Avoid double booking.
+
+4. **Student Choice Handling (Key Point Added)**
+
+   * Each student chooses subjects from **Major, Minor, Skill, Ability, Value-Added**.
+   * AI generates a **personalized timetable once per semester** for that student.
+   * **Not weekly/daily repeated generation** — single finalized timetable.
+   * If clashes:
+
+     * Generate **Conflict Report**.
+     * Suggest alternate course/slot.
+     * If impossible → student must reselect from available options.
+
+---
+
+### **C. Dashboards**
+
+#### **Admin Dashboard**
+
+* Define slots, timings, breaks.
+* Upload courses, credits, student strength.
+* Map faculty & rooms.
+* Generate complete timetable (all programs/semesters).
+* Approve & publish.
+* Export timetable (PDF/Excel).
+
+#### **Faculty Dashboard**
+
+* View personal timetable (semester-wise).
+* View workload summary (credits, hours/week).
+* Mark unavailability / request adjustments.
+* Download timetable.
+
+#### **Student Dashboard**
+
+* Select courses (Major, Minor, Skills, etc.).
+* Get **personalized semester timetable** auto-generated.
+* Clash report & alternate suggestions.
+* Export timetable (PDF/Excel).
+
+---
+
+### **D. Example**
+
+* **Admin** sets slots: 55 min, 8 per day.
+* **DBMS (3 credits)** → needs 3 slots.
+* Assigned to Dr. X → workload = 9 hrs/week.
+* 80 students enrolled → Room with 100 capacity allocated.
+* **Student A** chooses DBMS + Statistics + AI Lab.
+
+  * AI generates **Student A’s semester timetable**.
+  * If AI Lab clashes with Statistics → system suggests alternate AI Lab section.
