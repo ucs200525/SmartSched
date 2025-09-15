@@ -1,0 +1,47 @@
+AI-Based Timetable Generation System (Final Flow)
+A. Base Timetable Setup (Admin → System Questions)
+Before timetable generation, the Admin configures the base framework:
+
+Slot Configuration
+
+Slot length → 50 min / 55 min (depends on walking distance between blocks, campus infra).
+
+College start & end timings (e.g., 8:30 AM – 5:30 PM).
+
+Number of slots per day (e.g., 7–8).
+
+Breaks/lunch timings.
+
+Credit-to-Slot Mapping
+
+1 credit → 1 slot/week.
+
+2 credits → 2 slots/week.
+
+3 credits → 3 slots/week.
+
+Labs → consecutive slots (2–3 credits).
+
+Course Setup
+
+Upload course list (Major, Minor, Skill-Based, Ability Enhancement, Value-Added).
+
+Define → course code, credits, theory/lab split, student strength.
+
+AI auto-calculates required slots for each course.
+
+Faculty Setup
+
+Assign faculty to courses.
+
+Define availability, workload limits (e.g., max 12 hrs/week).
+
+Specialization check → only qualified faculty can teach.
+
+Room/Lab Setup
+
+Room capacity, location, availability.
+
+Tag rooms/labs to specific courses (e.g., Physics → Physics Lab).
+
+Student strength vs room strength validation.
