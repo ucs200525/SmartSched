@@ -1,0 +1,11 @@
+# AI/Optimization Engine Dependencies
+ortools>=9.8.0          # Google OR-Tools for CSP and optimization
+pulp>=2.7.0             # Linear Programming
+numpy>=1.24.0           # Numerical computing
+pandas>=2.0.0           # Data manipulation
+scipy>=1.11.0           # Scientific computing
+scikit-learn>=1.3.0     # Machine learning (future scope)
+fastapi>=0.104.0        # API framework for Python endpoints
+uvicorn>=0.24.0         # ASGI server
+pydantic>=2.4.0         # Data validation
+python-multipart>=0.0.6 # Form data handling
