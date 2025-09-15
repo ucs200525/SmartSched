@@ -25,6 +25,7 @@ import {
   type InsertConflict
 } from "@shared/schema";
 import { randomUUID } from "crypto";
+import bcrypt from "bcrypt";
 
 export interface IStorage {
   // User management
@@ -116,8 +117,84 @@ export class MemStorage implements IStorage {
   constructor() {
     this.initializeDefaultData();
   }
+  
+  private initializeDefaultUsers() {
+    
+    // Create default admin user
+    const adminUser = {
+      username: 'admin',
+      password: bcrypt.hashSync('admin123', 10),
+      email: 'admin@college.edu',
+      role: 'admin',
+      firstName: 'System',
+      lastName: 'Administrator',
+      isActive: true
+    };
+    
+    const adminId = randomUUID();
+    this.users.set(adminId, { ...adminUser, id: adminId, createdAt: new Date() });
+    
+    // Create default faculty user
+    const facultyUser = {
+      username: 'faculty',
+      password: bcrypt.hashSync('faculty123', 10),
+      email: 'faculty@college.edu',
+      role: 'faculty',
+      firstName: 'Dr. Jane',
+      lastName: 'Smith',
+      isActive: true
+    };
+    
+    const facultyId = randomUUID();
+    this.users.set(facultyId, { ...facultyUser, id: facultyId, createdAt: new Date() });
+    
+    // Create faculty profile
+    const facultyProfile = {
+      userId: facultyId,
+      employeeId: 'FAC001',
+      department: 'Education',
+      designation: 'Assistant Professor',
+      specialization: ['Curriculum Development', 'Educational Psychology'],
+      maxWeeklyHours: 15,
+      availableDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+      unavailableSlots: [],
+      isActive: true
+    };
+    
+    const facultyProfileId = randomUUID();
+    this.faculty.set(facultyProfileId, { ...facultyProfile, id: facultyProfileId });
+    
+    // Create default student user
+    const studentUser = {
+      username: 'student',
+      password: bcrypt.hashSync('student123', 10),
+      email: 'student@college.edu',
+      role: 'student',
+      firstName: 'John',
+      lastName: 'Doe',
+      isActive: true
+    };
+    
+    const studentId = randomUUID();
+    this.users.set(studentId, { ...studentUser, id: studentId, createdAt: new Date() });
+    
+    // Create student profile (linked to first program - B.Ed)
+    const studentProfile = {
+      userId: studentId,
+      rollNumber: 'STU001',
+      programId: '1', // B.Ed program
+      semester: 1,
+      isActive: true
+    };
+    
+    const studentProfileId = randomUUID();
+    this.students.set(studentProfileId, { ...studentProfile, id: studentProfileId });
+  }
 
   private initializeDefaultData() {
+    // Initialize default users first
+    this.initializeDefaultUsers();
+    
     // Initialize with some basic structure for NEP 2020
     const defaultPrograms = [
       { id: '1', name: 'Bachelor of Education', code: 'B.Ed', description: 'Four Year Undergraduate Programme in Education', duration: 4, isActive: true },
