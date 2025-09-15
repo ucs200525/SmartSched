@@ -1,6 +1,14 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+
+// Extend Express Session interface
+declare module 'express-session' {
+  interface SessionData {
+    userId?: string;
+    userRole?: string;
+  }
+}
 import { 
   insertUserSchema, 
   insertProgramSchema, 
@@ -77,7 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/auth/me', requireAuth, async (req, res) => {
     try {
-      const user = await storage.getUser(req.session.userId);
+      const user = await storage.getUser(req.session.userId!);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
@@ -228,7 +236,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/faculty/me', requireAuth, requireRole(['faculty']), async (req, res) => {
     try {
-      const faculty = await storage.getFacultyByUser(req.session.userId);
+      const faculty = await storage.getFacultyByUser(req.session.userId!);
       if (!faculty) {
         return res.status(404).json({ message: 'Faculty profile not found' });
       }
@@ -272,7 +280,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Student management
   app.get('/api/students/me', requireAuth, requireRole(['student']), async (req, res) => {
     try {
-      const student = await storage.getStudentByUser(req.session.userId);
+      const student = await storage.getStudentByUser(req.session.userId!);
       if (!student) {
         return res.status(404).json({ message: 'Student profile not found' });
       }
@@ -389,7 +397,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { resolution } = req.body;
       const conflict = await storage.updateConflict(req.params.id, {
         status: 'resolved',
-        resolvedAt: new Date(),
         resolvedBy: req.session.userId
       });
       if (!conflict) {
@@ -465,7 +472,7 @@ async function checkForConflicts(timetableId: string, entries: any[]): Promise<a
     facultyHours.set(entry.facultyId, current + 1);
   }
   
-  for (const [facultyId, hours] of facultyHours) {
+  for (const [facultyId, hours] of Array.from(facultyHours.entries())) {
     if (hours > 15) { // Assuming 15 hours max per week
       conflicts.push({
         timetableId,
